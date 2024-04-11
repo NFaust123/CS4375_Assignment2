@@ -30,15 +30,17 @@ class RNN(nn.Module):
         return self.loss(predicted_vector, gold_label)
 
     def forward(self, inputs):
-        # [to fill] obtain hidden layer representation (https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)_, hidden =
-        h = self.rnn(inputs)
-        # [to fill] obtain output layer representations
-        o = self.W(h)
-        # [to fill] sum over output 
-        sum = np.sum(o)
-        # [to fill] obtain probability dist.
-        predicted_vector = self.softmax(sum)
+        # [to fill] obtain hidden layer representation (https://pytorch.org/docs/stable/generated/torch.nn.RNN.html)
+        hidden, _ = self.rnn(inputs)
 
+        # [to fill] obtain output layer representations
+        output = self.W(hidden.squeeze(0))
+
+        # [to fill] sum over output 
+        output_sum = torch.sum(output, dim=0)
+
+        # [to fill] obtain probability dist.
+        predicted_vector = self.softmax(output_sum)
 
         return predicted_vector
 
